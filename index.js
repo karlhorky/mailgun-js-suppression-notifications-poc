@@ -13,7 +13,10 @@ const mg = mailgun.client({
 mg.suppressions
   .list(domain, 'bounces')
   .then(({ items }) => {
-    if (items.length < 1) return;
+    if (items.length < 1) {
+      console.log('No bounces received, doing nothing.');
+      return;
+    }
 
     const message = items.reduce(
       ({ text, html }, { created_at, code, address, error }) => ({
