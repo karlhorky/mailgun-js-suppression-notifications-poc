@@ -13,6 +13,8 @@ const mg = mailgun.client({
 mg.suppressions
   .list(domain, 'bounces')
   .then(({ items }) => {
+    if (items.length < 1) return;
+
     const message = items.reduce(
       ({ text, html }, { created_at, code, address, error }) => ({
         text: `${text}${created_at} [${code}] ${address}: ${error}\n\n`,
