@@ -11,5 +11,8 @@
   "private": true,
   "dependencies": {
     "mailgun.js": "^2.0.1"
+  },
+  "resolutions": {
+    "lodash.merge": "^4.6.2"
   }
 }
