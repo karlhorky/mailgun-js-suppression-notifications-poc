@@ -2,12 +2,19 @@
 
 const mailgun = require('mailgun.js');
 
-const [, , apiKey, domain, isEU = false] = process.argv;
+let [, , apiKey, domain, isEU = false] = process.argv;
+
+if (!apiKey) {
+  const env = require('./env.json');
+  apiKey = env.apiKey;
+  domain = env.domain;
+  isEU = env.isEU || false;
+}
 
 const mg = mailgun.client({
   username: 'api',
   key: apiKey,
-  ...(isEU ? { url: 'https://api.eu.mailgun.net' } : {})
+  ...(isEU ? { url: 'https://api.eu.mailgun.net' } : {}),
 });
 
 mg.suppressions
@@ -34,9 +41,9 @@ mg.suppressions
               <b>Error:</b><br><br>${error}<br><br><br><br>
             </td>
           </tr>
-        `
+        `,
       }),
-      { text: '', html: '' }
+      { text: '', html: '' },
     );
 
     mg.messages.create(domain, {
@@ -56,7 +63,7 @@ mg.suppressions
             </table>
           </body>
         </html>
-      `
+      `,
     });
   })
   .catch(err => console.log('Error!\n', err));

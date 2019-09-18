@@ -14,5 +14,8 @@
   },
   "resolutions": {
     "lodash.merge": "^4.6.2"
+  },
+  "scripts": {
+    "start": "node index.js"
   }
 }
